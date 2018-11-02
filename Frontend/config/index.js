@@ -11,13 +11,6 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        // '/meter_vis': {
-        //     target: 'http://localhost:3000/meter_vis',
-        //     changeOrigin: true,
-        //     pathRewrite: {
-        //         '^/meter_vis': ''
-        //     }
-        // }
         '/silver_bullets': {
             target: 'http://localhost:3000/silver_bullets',
             changeOrigin: true,
@@ -53,10 +46,12 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    // index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../../Backend/app/views/silver_bullets/index.html.erb'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    // assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../../Backend/public'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
