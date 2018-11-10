@@ -1,12 +1,15 @@
 <template>
   <div id="myApp">
+    <UserNav></UserNav>
     <router-view/>
   </div>
 </template>
 
 <script>
+import UserNav from './components/UserNav'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {UserNav}
 }
 </script>
 
