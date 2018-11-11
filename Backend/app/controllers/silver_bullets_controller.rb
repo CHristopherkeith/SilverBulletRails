@@ -8,7 +8,9 @@ class SilverBulletsController < ApplicationController
 		p params
 		p 'ffffffffffff'
 		p params[:a]
+		session
 		rs = {bar: "bar"}
+		session[:current_user_id] = 1
 		render json: params
 	end
 end

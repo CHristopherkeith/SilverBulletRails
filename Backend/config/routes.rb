@@ -4,4 +4,5 @@ Rails.application.routes.draw do
 			post 'foo'
 		end
 	end
+	get 'user_register', to: 'users#register'
 end
