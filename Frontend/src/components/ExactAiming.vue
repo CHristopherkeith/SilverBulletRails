@@ -123,17 +123,16 @@ export default {
     'hasWalletExt'
   ]),
   mounted: function(){
-      // this.axios.post('/meter_vis/foo', {
-      this.axios.post('/silver_bullets/foo', {
-        a: 'a',
-        b: 'b'
-      })
-      .then(function (res){
-        console.log(res.data, '【res】');
-      })
-      .catch(function (err) {
-        console.log(err, '【err】');
-      })
+      // this.axios.post('/silver_bullets/foo', {
+      //   a: 'a',
+      //   b: 'b'
+      // })
+      // .then(function (res){
+      //   console.log(res.data, '【res】');
+      // })
+      // .catch(function (err) {
+      //   console.log(err, '【err】');
+      // })
 
       this.$store.commit('CHECK_WALLET_EXT');
       if(!this.hasWalletExt){

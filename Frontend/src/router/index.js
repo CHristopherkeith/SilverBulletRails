@@ -3,6 +3,8 @@ import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 import ExactAiming from '@/components/ExactAiming'
 import PressReaction from '@/components/PressReaction'
+import Login from '@/components/Login'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -22,6 +24,14 @@ export default new Router({
       path: '/pressreaction',
       // name: 'PressReaction',
       component: PressReaction
-    }
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/register',
+      component: Register
+    },
   ]
 })

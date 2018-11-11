@@ -1,6 +1,6 @@
 <template>
   <div id="myApp">
-    <UserNav></UserNav>
+    <UserNav :parentMenu="parentMenu" :childMenu="childMenu"></UserNav>
     <router-view/>
   </div>
 </template>
@@ -9,7 +9,21 @@
 import UserNav from './components/UserNav'
 export default {
   name: 'App',
-  components: {UserNav}
+  components: {UserNav},
+  data(){
+    return{
+      parentMenu:{
+        title: 'Login',
+        path: 'login'
+      },
+      childMenu:[
+        {
+          title: 'Register',
+          path: 'register'
+        },
+      ]
+    }
+  }
 }
 </script>
 
