@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+	# layout "silver_bulletsff"
 	# 注册
 	def register
 		rs = {success: true, data: nil, msg: ""}
