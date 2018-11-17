@@ -51,7 +51,7 @@ export default {
       confirmStatusValue: false,
       maskTextValue: 'CLICK TO START',
       time: 0,
-      durationValue: 60,
+      durationValue: 5,
       ifClickMask: false,
       clickMaskStyleValue: {
         left: 0,
@@ -100,8 +100,8 @@ export default {
           this.$store.commit('ADD_TOTAL_TARGET');
           this.items.push({
             value: tempItem,
-            left: randomLeft*450,
-            top: randomTop*450
+            left: /*randomLeft**/450,
+            top: /*randomTop**/450
           });
           this.time ++;
         }        
@@ -123,16 +123,16 @@ export default {
     'hasWalletExt'
   ]),
   mounted: function(){
-      this.axios.post('/silver_bullets/foo', {
-        a: 'a',
-        b: 'b'
-      })
-      .then(function (res){
-        console.log(res.data, '【res】');
-      })
-      .catch(function (err) {
-        console.log(err, '【err】');
-      })
+      // this.axios.post('/silver_bullets/foo', {
+      //   a: 'a',
+      //   b: 'b'
+      // })
+      // .then(function (res){
+      //   console.log(res.data, '【res】');
+      // })
+      // .catch(function (err) {
+      //   console.log(err, '【err】');
+      // })
 
       this.$store.commit('CHECK_WALLET_EXT');
       if(!this.hasWalletExt){

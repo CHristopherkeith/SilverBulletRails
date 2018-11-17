@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 import * as types from "./type.js"
 import NebPay from 'nebpay.js'
 import Nebulas from 'nebulas'
@@ -42,7 +43,10 @@ const store = new Vuex.Store({
 			pressScore: 0,
 			pressMisses: 0,
 			pressMissesTgt: 0,
-		}
+		},
+		// 用户信息
+		userId: null,
+		userName: null
 	},
 	mutations: {
 		[types.CHANGE_SCORE](state,payload){
@@ -303,10 +307,40 @@ const store = new Vuex.Store({
 	            		resolve(res);
 	            	},
 	            	err => {
-	            		console.log(err, '【FOR_EACH err】')
+	            		// console.log(err, '【FOR_EACH err】')
 						reject(err);
 					}
 	            )
+			})
+		},
+		[types.VERIFY_SCORE]({commit, state}, payload){
+			return new Promise((resolve, reject)=>{
+				axios.get('/silver_bullets/foo', {
+					a: 'a',
+					b: 'b'
+				})
+				.then(
+					res=>{
+						if(res.data.success){
+							resolve(res.data);
+						}else{
+							if(res.data.redirect){
+								console.log('【redirect】')
+							}else{
+								reject(res.data);
+							}
+							
+						}
+					},
+					err=>{
+						console.log('err')
+						reject(err);
+					}
+				)
+				.catch(err=>{
+					console.log('catch')
+					reject(err);
+				})
 			})
 		}
 	}

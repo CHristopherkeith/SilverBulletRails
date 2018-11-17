@@ -64,44 +64,56 @@ export default {
     },
     confirmRecord(confirmFlag){
       if(confirmFlag){
-        if(!this.hasWalletExt){
-          alert('Please Install WebExtensionWallet First');
-          return;
-        }
-        // this.$store.commit('CHANGE_LOADING_MASK', {
-        //   loadingMaskShow: true
-        // })
-        this.$store.dispatch('SAVE_STORE', {
-          type: 'exact'
-        })
+        this.$store.dispatch('VERIFY_SCORE', {})
         .then(
           res => {
-            this.$store.commit('CHANGE_LOADING_MASK', {
-              loadingMaskShow: false
-            })
-            if(res.status === 1){
-              console.log('【success】')
-              this.$store.commit('SET_SCORE', {
-                exactScore: this.$store.state.now.score,
-                exactMisses: this.$store.state.now.misses,
-                exactMissesTgt: this.$store.state.now.missesTgt,
-                pressScore: 0,
-                pressMisses: 0,
-                pressMissesTgt: 0,
-              })
-            }else{
-              alert(res.execute_result)
-              console.log('【fail】')
-            }
+            console.log(res, '【VALIDATE_SCORE res】')
           },
           err => {
-            this.$store.commit('CHANGE_LOADING_MASK', {
-              loadingMaskShow: false
-            })
-            alert(err.execute_result)
-            console.log(err, '【err confirmRecord】')
+            console.log(err, '【VALIDATE_SCORE err】')
+            if(err.msg){
+              alert(err.msg)
+            }else{
+              alert('出现错误！')
+            }
           }
         )
+        // ////////////////
+        // if(!this.hasWalletExt){
+        //   alert('Please Install WebExtensionWallet First');
+        //   return;
+        // }
+        // this.$store.dispatch('SAVE_STORE', {
+        //   type: 'exact'
+        // })
+        // .then(
+        //   res => {
+        //     this.$store.commit('CHANGE_LOADING_MASK', {
+        //       loadingMaskShow: false
+        //     })
+        //     if(res.status === 1){
+        //       console.log('【success】')
+        //       this.$store.commit('SET_SCORE', {
+        //         exactScore: this.$store.state.now.score,
+        //         exactMisses: this.$store.state.now.misses,
+        //         exactMissesTgt: this.$store.state.now.missesTgt,
+        //         pressScore: 0,
+        //         pressMisses: 0,
+        //         pressMissesTgt: 0,
+        //       })
+        //     }else{
+        //       alert(res.execute_result)
+        //       console.log('【fail】')
+        //     }
+        //   },
+        //   err => {
+        //     this.$store.commit('CHANGE_LOADING_MASK', {
+        //       loadingMaskShow: false
+        //     })
+        //     alert(err.execute_result)
+        //     console.log(err, '【err confirmRecord】')
+        //   }
+        // )
         this.$emit('update:confirmStatus', false);
       }else{
         this.$emit('update:confirmStatus', false);

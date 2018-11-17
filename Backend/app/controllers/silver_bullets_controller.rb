@@ -1,17 +1,21 @@
 class SilverBulletsController < ApplicationController
-	skip_before_filter :verify_authenticity_token
-	# layout "silver_bullets"
+	skip_before_action :verify_authenticity_token
 	def index
-		
+		# headers['Access-Control-Allow-Origin'] = "*"
 	end
 	def foo
 		p params
 		p 'ffffffffffff'
 		p params[:a]
 		session
-		rs = {bar: "bar"}
+		rs = {success: true, data: nil, msg: nil, redirect: "login"}
 		session[:current_user_id] = 1
-		render json: params
+		# redirect_to "#{request.protocol}#{request.host_with_port}/silver_bullets/#/login"
+		# response.headers["REDIRECT"] = "REDIRECT";
+		# response.headers["CONTEXTPATH"] = "login";
+		# response.headers["foo11"] = "bar11"
+		# response.headers.delete("foo11")
+		render json: rs
 	end
 	def redirect
 		p '1111111111111111111111'
