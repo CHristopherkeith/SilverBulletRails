@@ -63,57 +63,71 @@ export default {
       // }
     },
     confirmRecord(confirmFlag){
+      // console.log(this, '【this11111】')
       if(confirmFlag){
         this.$store.dispatch('VERIFY_SCORE', {})
         .then(
           res => {
-            console.log(res, '【VALIDATE_SCORE res】')
+            // console.log(this, '【this222222】')
+            console.log(res.data, '【VALIDATE_SCORE res】')
+            if(res.data.success){
+              console.log('res success')
+              // ////////////////
+              if(!this.hasWalletExt){
+                alert('Please Install WebExtensionWallet First');
+                return;
+              }
+              this.$store.dispatch('SAVE_STORE', {
+                type: 'exact'
+              })
+              .then(
+                res => {
+                  this.$store.commit('CHANGE_LOADING_MASK', {
+                    loadingMaskShow: false
+                  })
+                  if(res.status === 1){
+                    console.log('【success】')
+                    this.$store.commit('SET_SCORE', {
+                      exactScore: this.$store.state.now.score,
+                      exactMisses: this.$store.state.now.misses,
+                      exactMissesTgt: this.$store.state.now.missesTgt,
+                      pressScore: 0,
+                      pressMisses: 0,
+                      pressMissesTgt: 0,
+                    })
+                  }else{
+                    alert(res.execute_result)
+                    console.log('【fail】')
+                  }
+                },
+                err => {
+                  this.$store.commit('CHANGE_LOADING_MASK', {
+                    loadingMaskShow: false
+                  })
+                  alert(err.execute_result)
+                  console.log(err, '【err confirmRecord】')
+                }
+              )
+            }else{
+              if(res.data.redirect){
+                console.log('【redirect】')
+                // console.log(this, '【this】')
+                this.$router.push({path: res.data.redirect})
+              }else{
+                alert('出现错误：' + res.data.msg);
+              }
+            }
           },
           err => {
             console.log(err, '【VALIDATE_SCORE err】')
             if(err.msg){
-              alert(err.msg)
+              alert('出现错误：' + err.msg);
             }else{
               alert('出现错误！')
             }
           }
         )
-        // ////////////////
-        // if(!this.hasWalletExt){
-        //   alert('Please Install WebExtensionWallet First');
-        //   return;
-        // }
-        // this.$store.dispatch('SAVE_STORE', {
-        //   type: 'exact'
-        // })
-        // .then(
-        //   res => {
-        //     this.$store.commit('CHANGE_LOADING_MASK', {
-        //       loadingMaskShow: false
-        //     })
-        //     if(res.status === 1){
-        //       console.log('【success】')
-        //       this.$store.commit('SET_SCORE', {
-        //         exactScore: this.$store.state.now.score,
-        //         exactMisses: this.$store.state.now.misses,
-        //         exactMissesTgt: this.$store.state.now.missesTgt,
-        //         pressScore: 0,
-        //         pressMisses: 0,
-        //         pressMissesTgt: 0,
-        //       })
-        //     }else{
-        //       alert(res.execute_result)
-        //       console.log('【fail】')
-        //     }
-        //   },
-        //   err => {
-        //     this.$store.commit('CHANGE_LOADING_MASK', {
-        //       loadingMaskShow: false
-        //     })
-        //     alert(err.execute_result)
-        //     console.log(err, '【err confirmRecord】')
-        //   }
-        // )
+        
         this.$emit('update:confirmStatus', false);
       }else{
         this.$emit('update:confirmStatus', false);

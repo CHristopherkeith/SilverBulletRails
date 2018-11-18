@@ -8,7 +8,7 @@ class SilverBulletsController < ApplicationController
 		p 'ffffffffffff'
 		p params[:a]
 		session
-		rs = {success: true, data: nil, msg: nil, redirect: "login"}
+		rs = {success: false, data: nil, msg: nil, redirect: "login"}
 		session[:current_user_id] = 1
 		# redirect_to "#{request.protocol}#{request.host_with_port}/silver_bullets/#/login"
 		# response.headers["REDIRECT"] = "REDIRECT";

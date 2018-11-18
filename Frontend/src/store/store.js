@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import router from 'vue-router'
 import * as types from "./type.js"
 import NebPay from 'nebpay.js'
 import Nebulas from 'nebulas'
@@ -46,7 +47,8 @@ const store = new Vuex.Store({
 		},
 		// 用户信息
 		userId: null,
-		userName: null
+		userName: null,
+		// login: true,
 	},
 	mutations: {
 		[types.CHANGE_SCORE](state,payload){
@@ -81,6 +83,7 @@ const store = new Vuex.Store({
 		},
 		[types.SET_SCORE](state, payload){
 			state.best = payload;
+			state.best.exactScore = 0;
 		},
 		[types.ADD_MISSES](state,payload){
 			if(state.playing){
@@ -161,60 +164,6 @@ const store = new Vuex.Store({
 					}
 	            )
 			})
-
-			// 使用直接向合约发送数据的方法（花费手续费）
-			// return new Promise( (resolve, reject) => {
-			// 	let param = 0;
-			// 	let callRes = nebPay.call(contractAddress, 0, 'balanceOf', `[${param}]`, {
-			// 		qrcode: {
-		 //                showQRCode: false
-		 //            },
-		 //            extension: {
-			// 			openExtension: true //是否支持插件调用
-			// 		},
-		 //            callback: NebPay.config.testnetUrl,
-		 //            listener: function(serialNumber, result){
-		 //            	console.log(serialNumber, '【serialNumber】')
-		 //            	console.log(result, '【result】')
-
-		 //            	const intervalQuery = setInterval(function() {
-			// 	            funcIntervalQuery();
-			// 	        }, 5000);
-
-		 //            	function funcIntervalQuery(){
-		 //            		// 使用nebpay接口 
-			// 		        // nebPay.queryPayInfo(serialNumber, {callback: NebPay.config.testnetUrl})
-			// 	         //    .then(
-			// 	         //    	res => {
-			// 		        //         let respObject = JSON.parse(res)
-			// 		        //         console.log(respObject, '【respObject111】')
-			// 		        //         if(respObject.code === 0 && respObject.data.status === 1){                    
-			// 		        //             clearInterval(intervalQuery)
-			// 		        //         }
-			// 	         //    	},
-			// 	         //    	err => {console.log(err, '【err222】')}
-			// 	         //    )
-
-			// 	         	// 使用nebjs接口查询
-			// 	         	neb.api.getTransactionReceipt(result.txhash)
-			// 	         	.then(
-			// 	         		res => {
-			// 	         			if(res.status === 1){
-			// 	         				console.log(res, '【res getTransactionReceipt】');
-			// 	         				clearInterval(intervalQuery);
-			// 	         				resolve(res);
-			// 	         			}
-			// 	         		},
-			// 	         		err => {
-			// 	         			console.log(err, '【err getTransactionReceipt】')
-			// 	         			clearInterval(intervalQuery);
-			// 	         			reject(err);
-			// 	         		}
-			// 	         	)
-			// 		    }
-		 //            }
-			// 	})
-			// })
 		},
 		[types.SAVE_STORE]({commit, state}, payload={type: 'exact'}){
 			let value = JSON.stringify({
@@ -321,16 +270,7 @@ const store = new Vuex.Store({
 				})
 				.then(
 					res=>{
-						if(res.data.success){
-							resolve(res.data);
-						}else{
-							if(res.data.redirect){
-								console.log('【redirect】')
-							}else{
-								reject(res.data);
-							}
-							
-						}
+						resolve(res);
 					},
 					err=>{
 						console.log('err')

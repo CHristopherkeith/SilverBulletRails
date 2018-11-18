@@ -51,7 +51,7 @@ export default {
       confirmStatusValue: false,
       maskTextValue: 'CLICK TO START',
       time: 0,
-      durationValue: 5,
+      durationValue: 1,
       ifClickMask: false,
       clickMaskStyleValue: {
         left: 0,

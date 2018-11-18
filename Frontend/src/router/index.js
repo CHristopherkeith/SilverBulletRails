@@ -27,11 +27,13 @@ export default new Router({
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      props: { login: true }
     },
     {
       path: '/register',
-      component: Register
+      component: Login,
+      props: { login: false }
     },
   ]
 })

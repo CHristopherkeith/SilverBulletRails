@@ -28,6 +28,8 @@
 - [WebExtensionWallet（星云链浏览器钱包插件）](https://github.com/nebulasio/WebExtensionWallet)
 - [SmartContract（星云链智能合约）](https://github.com/nebulasio/wiki/tree/master/tutorials)
 
+## 问题
+- 使用console.log(this)报错：TypeError: Converting circular structure to JSON
 
 ## 工程构建
 
