@@ -282,6 +282,9 @@ const store = new Vuex.Store({
 					reject(err);
 				})
 			})
+		},
+		[types.REGISTER]({commit, state}, payload){
+			console.log(payload, '【REGISTER payload】')
 		}
 	}
 })

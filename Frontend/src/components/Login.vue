@@ -3,12 +3,12 @@
     <!-- <h1>{{ msg }}</h1> -->
     <div class="loginContent">
     	<span class="loginTitle" >Username</span>
-    	<input class="loginInput" type="text" placeholder="Pick a username" />
+    	<input v-model="username" class="loginInput" type="text" placeholder="Pick a username" />
     	<span class="loginTitle" v-show="!login">Email</span>
-    	<input class="loginInput" type="text" placeholder="you@example.com" v-show="!login"/>
+    	<input v-model="email" class="loginInput" type="text" placeholder="you@example.com" v-show="!login"/>
     	<span class="loginTitle">Password</span>
-    	<input class="loginInput" type="password" placeholder="Create a password" />
-    	<button class="loginBtn">{{msg}}</button>
+    	<input v-model="password" class="loginInput" type="password" placeholder="Create a password" />
+    	<button class="loginBtn" @click="loginOrRegister()">{{msg}}</button>
     	<span class="newAccount" v-show="login">New to SilverBullet? <router-link to="/register">Create an account.</router-link></span>
     </div>
   </div>
@@ -23,7 +23,24 @@ export default {
     return {
       // msg: 'Register for SilverBullet',
       // login: false
+      username: '',
+      email: '',
+      password: ''
     }
+  },
+  methods: {
+  	loginOrRegister(){
+  		if(this.login){
+  			console.log('【login】')
+  		}else{
+  			console.log('【register】')
+  			this.$store.dispatch('REGISTER',{
+  				username: this.username,
+  				email: this.email,
+  				password: this.password
+  			})
+  		}
+  	}
   },
   computed:{
   	// ...mapState(['login']),
