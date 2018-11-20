@@ -285,6 +285,26 @@ const store = new Vuex.Store({
 		},
 		[types.REGISTER]({commit, state}, payload){
 			console.log(payload, '【REGISTER payload】')
+			return new Promise((resolve, reject)=>{
+				axios.post('/users/register', payload)
+				.then(
+					res=>{
+						if(res.data.success){
+							resolve(res);
+						}else{
+							reject(res);
+						}
+					},
+					err=>{
+						console.log('err')
+						reject(err);
+					}
+				)
+				.catch(err=>{
+					console.log('catch')
+					reject(err);
+				})
+			})
 		}
 	}
 })

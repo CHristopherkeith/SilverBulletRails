@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
+	skip_before_action :verify_authenticity_token
 	# layout "silver_bulletsff"
 	# 注册
 	def register
 		rs = {success: true, data: nil, msg: ""}
 		begin
-			if user = User.authenticate(params[:username], params[:password])
+			authenticate_rs = User.authenticate(params[:username], params[:password])
+			if authenticate_rs[:success]
 				User.create(name: params[:username], password: params[:password])
+			else
+				rs = {success: false, data: nil, msg: authenticate_rs[:msg]}
 			end
 		rescue Exception => e
 			puts e.message

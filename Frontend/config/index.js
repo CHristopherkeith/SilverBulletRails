@@ -17,7 +17,14 @@ module.exports = {
             pathRewrite: {
                 '^/silver_bullets': ''
             }
-        }
+        },
+        '/users': {
+            target: 'http://localhost:3000/users',
+            changeOrigin: true,
+            pathRewrite: {
+                '^/users': ''
+            }
+        },
     },
 
     // Various Dev Server settings

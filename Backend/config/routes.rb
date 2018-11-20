@@ -6,5 +6,5 @@ Rails.application.routes.draw do
 			get 'login'
 		end
 	end
-	get 'user_register', to: 'users#register'
+	post 'users/register', to: 'users#register'
 end

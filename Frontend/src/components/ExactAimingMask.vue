@@ -120,8 +120,8 @@ export default {
           },
           err => {
             console.log(err, '【VALIDATE_SCORE err】')
-            if(err.msg){
-              alert('出现错误：' + err.msg);
+            if(err.data&&err.data.msg){
+              alert('出现错误：' + err.data.msg);
             }else{
               alert('出现错误！')
             }

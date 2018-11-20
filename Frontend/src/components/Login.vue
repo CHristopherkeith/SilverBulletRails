@@ -39,6 +39,23 @@ export default {
   				email: this.email,
   				password: this.password
   			})
+  			.then(
+  				res=>{
+  					if(res.data.success){
+  						alert('注册成功，请登录');
+  						this.$router.push({path: 'login'});
+  					}else{
+  						alert('出现错误：' + res.data.msg);
+  					}
+  				},
+  				err=>{
+  					if(err.data&&err.data.msg){
+		              alert('出现错误：' + err.data.msg);
+		            }else{
+		              alert('出现错误！')
+		            }
+  				}
+  			)
   		}
   	}
   },
