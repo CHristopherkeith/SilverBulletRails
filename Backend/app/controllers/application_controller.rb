@@ -7,5 +7,6 @@ class ApplicationController < ActionController::Base
 	# 登录后设定这个会话值，退出后删除这个会话值
 	def current_user
 		@_current_user ||= session[:current_user_id] && User.find_by(id: session[:current_user_id])
+		# @_current_user = 'hhhhhhhhhh'
 	end
 end

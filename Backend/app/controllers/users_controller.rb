@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 	def register
 		rs = {success: true, data: nil, msg: ""}
 		begin
-			authenticate_rs = User.authenticate(params[:username], params[:password])
+			authenticate_rs = User.register_authenticate(params[:username], params[:password])
 			if authenticate_rs[:success]
 				User.create(name: params[:username], password: params[:password])
 			else
@@ -22,10 +22,18 @@ class UsersController < ApplicationController
 	# 登录
 	def login
 		rs = {success: true, data: nil, msg: ""}
+		current_user()
+		p '1'*50
+		p session[:current_user_id]
+		p @_current_user
+		p '2'*50
 		begin
-			if user = User.authenticate(params[:username], params[:password])
+			authenticate_rs = User.login_authenticate(params[:username], params[:password])
+			if authenticate_rs[:success]
 				# 把用户的 ID 存储在会话中，以便后续请求使用
-				session[:current_user_id] = user.id
+				session[:current_user_id] = authenticate_rs[:id]
+			else
+				rs = {success: false, data: {username: params[:username]}, msg: authenticate_rs[:msg]}
 			end
 		rescue Exception => e
 			puts e.message

@@ -107,8 +107,14 @@ const store = new Vuex.Store({
 		},
 		[types.CHANGE_LOADING_MASK](state,payload){
 			state.loadingMaskShow = payload.loadingMaskShow;
-		}
-
+		},
+		[types.CHANGE_LOADING_MASK](state,payload){
+			state.loadingMaskShow = payload.loadingMaskShow;
+		},
+		[types.SET_USERNAME](state,payload){
+			state.userName = payload.userName;
+			console.log(state.userName, '【state.userName】')
+		},
 	},
 	actions: {
 		[types.GET_USER_ADDRESS]({commit, state, dispatch}){
@@ -287,6 +293,29 @@ const store = new Vuex.Store({
 			console.log(payload, '【REGISTER payload】')
 			return new Promise((resolve, reject)=>{
 				axios.post('/users/register', payload)
+				.then(
+					res=>{
+						if(res.data.success){
+							resolve(res);
+						}else{
+							reject(res);
+						}
+					},
+					err=>{
+						console.log('err')
+						reject(err);
+					}
+				)
+				.catch(err=>{
+					console.log('catch')
+					reject(err);
+				})
+			})
+		},
+		[types.LOGIN]({commit, state}, payload){
+			console.log(payload, '【REGISTER payload】')
+			return new Promise((resolve, reject)=>{
+				axios.post('/users/login', payload)
 				.then(
 					res=>{
 						if(res.data.success){

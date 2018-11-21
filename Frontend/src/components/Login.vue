@@ -32,6 +32,28 @@ export default {
   	loginOrRegister(){
   		if(this.login){
   			console.log('【login】')
+  			this.$store.dispatch('LOGIN',{
+  				username: this.username,
+  				password: this.password
+  			})
+  			.then(
+  				res=>{
+  					if(res.data.success){
+  						alert('登录成功');
+  						this.$store.commit('SET_USERNAME', {userName: res.data.username})
+  						// this.$router.push({path: '/'});
+  					}else{
+  						alert('出现错误：' + res.data.msg);
+  					}
+  				},
+  				err=>{
+  					if(err.data&&err.data.msg){
+		              alert('出现错误：' + err.data.msg);
+		            }else{
+		              alert('出现错误！')
+		            }
+  				}
+  			)
   		}else{
   			console.log('【register】')
   			this.$store.dispatch('REGISTER',{
