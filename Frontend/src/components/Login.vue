@@ -41,7 +41,7 @@ export default {
   					if(res.data.success){
   						alert('登录成功');
   						this.$store.commit('SET_USERNAME', {userName: res.data.username})
-  						// this.$router.push({path: '/'});
+  						this.$router.push({path: '/'});
   					}else{
   						alert('出现错误：' + res.data.msg);
   					}

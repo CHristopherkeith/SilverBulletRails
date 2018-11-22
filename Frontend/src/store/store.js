@@ -270,7 +270,7 @@ const store = new Vuex.Store({
 		},
 		[types.VERIFY_SCORE]({commit, state}, payload){
 			return new Promise((resolve, reject)=>{
-				axios.get('/silver_bullets/foo', {
+				axios.post('/silver_bullets/verify_score', {
 					a: 'a',
 					b: 'b'
 				})

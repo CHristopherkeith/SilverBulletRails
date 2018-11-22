@@ -34,8 +34,24 @@ class SilverBulletsController < ApplicationController
 		# redirect_to( :location=>"www.baidu.com")
 		# render json:rs
 	end
-	def login
-		rs = {b:'b'}
+
+	# 验证分数
+	def verify_score
+		begin
+			current_user()
+			p 'v'*50
+			p session[:current_user_id]
+			p @_current_user
+			p 'v'*50
+			if @_current_user
+				rs = {success: true, data: nil, msg: nil}
+			else
+				rs = {success: false, data: nil, msg: nil, redirect: "login"}
+			end
+		rescue Exception => e
+			# puts $!
+			rs = {success: false, data: nil, msg: e.message}
+		end
 		render json:rs
 	end
 end

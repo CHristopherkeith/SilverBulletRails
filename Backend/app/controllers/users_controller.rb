@@ -32,8 +32,9 @@ class UsersController < ApplicationController
 			if authenticate_rs[:success]
 				# 把用户的 ID 存储在会话中，以便后续请求使用
 				session[:current_user_id] = authenticate_rs[:id]
+				rs = {success: true, data: {username: params[:username]}, msg: ""}
 			else
-				rs = {success: false, data: {username: params[:username]}, msg: authenticate_rs[:msg]}
+				rs = {success: false, data: nil, msg: authenticate_rs[:msg]}
 			end
 		rescue Exception => e
 			puts e.message
