@@ -1,37 +1,55 @@
+<!-- 支持 navMethod和非navMethod动态传父组件方法 -->
 <template>
 	<div class="userNav">
-		<!-- <div class="userNavtitle">{{parentMenu.title}}</div> -->
-		<div class="userNavtitle"><router-link :to="parentMenu.path">{{parentMenu.title}}</router-link></div>
+		<!-- <div class="userNavtitle" @click="triggerEvent(parentMenu.method)"><router-link :to="parentMenu.path?parentMenu.path:''">{{parentMenu.title}}</router-link></div> -->
+		<div class="userNavtitle" @click="triggerEvent(parentMenu.method)"><router-link :to="parentMenu.path?parentMenu.path:''">{{parentMenu.title}}</router-link></div>
 		<ul>
 			<!-- <template v-for="item in childMenu">
-				<li>{{item.title}}</li>
+				<li @click="clickItem" data="444">{{item.title}}</li>
 			</template> -->
-			<li v-for="item in childMenu"><router-link :to="item.path">{{item.title}}</router-link></li>
+			<li v-for="item in childMenu" @click="triggerEvent(item.method)"><router-link :to="item.path?item.path:''">{{item.title}}</router-link></li>
 		</ul>
 	</div>
 </template>
 <script type="text/javascript">
 	export default{
 		name: 'UserNav',
-		props: ['parentMenu', 'childMenu'],
+		props: ['parentMenu', 'childMenu', 'navMethod'],
 		data(){
-		return{
-			// parentMenu:{
-			// 	title: 'Hello',
-			// 	path: 'Hello'
-			// },
-			// childMenu:[
-			// 	{
-			// 		title: 'Login',
-			// 		path: 'Login'
-			// 	},
-			// 	{
-			// 		title: 'Register',
-			// 		path: 'Register'
-			// 	},
-			// ]
-		}
+			return{
+
+			}
 		},
+		methods:{
+			triggerEvent(eventName){
+				// console.log(this._props, '【props】')
+				// console.log(eventName, '【eventName】')
+				if(this.navMethod){
+					console.log('【this.navMethod】')
+					if(typeof this.navMethod[eventName] === 'function'){
+						this.navMethod[eventName]();
+					}
+				}else{
+					console.log('【no no this.navMethod】')
+					if(this.$parent && typeof this.$parent[eventName] === 'function'){
+						this.$parent[eventName]();
+					}
+				}
+			}
+		},
+		created(){
+			// console.log('【created】')
+			// console.log(this._props, '【props】')
+			// console.log(this.parentMenu, '【this.parentMenu】')
+			// console.log(this.parentMenu.method, '【method】')
+		},
+		mounted(){
+			console.log('【mounted】')
+			this._props.foo = 'ffffffff';
+			console.log(this._props, '【props】')
+			console.log(this.parentMenu, '【this.parentMenu】')
+			console.log(this.parentMenu.method, '【method】')
+		}
 	}
 </script>
 <style scoped>

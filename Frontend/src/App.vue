@@ -1,6 +1,7 @@
 <template>
   <div id="myApp">
-    <UserNav :parentMenu="parentMenu" :childMenu="childMenu"></UserNav>
+    <UserNav :parentMenu="parentMenu" :childMenu="childMenu" :navMethod="navMethods"></UserNav>
+    <!-- <UserNav :parentMenu="parentMenu" :childMenu="childMenu"></UserNav> -->
     <router-view/>
   </div>
 </template>
@@ -11,18 +12,50 @@ export default {
   name: 'App',
   components: {UserNav},
   data(){
-    return{
-      parentMenu:{
-        title: 'Login',
-        path: 'login'
-      },
-      childMenu:[
-        {
-          title: 'Register',
-          path: 'register'
+    console.log(this.$store.hitsPoint, '【this.$store.userName】')
+    if(!this.$store.userName&&false){
+      return{
+        parentMenu:{
+          title: 'Login',
+          path: 'login'
         },
-      ]
+        childMenu:[
+          {
+            title: 'Register',
+            path: 'register'
+          }
+        ],
+        navMethods:{}
+      }
+    }else{
+      return{
+        parentMenu:{
+          title: 'Login',
+          path: 'login',
+          method: 'clickItem'
+        },
+        childMenu:[
+          {
+            title: 'Register',
+            path: 'register',
+            method: 'clickItem1'
+          }
+        ],
+        navMethods:{
+          clickItem: this.clickItem,
+          clickItem1: this.clickItem1,
+        }
+      }
     }
+    
+  },
+  methods:{
+    clickItem(){
+        console.log('clickItem')
+    },
+    clickItem1(){
+        console.log('clickItem111')
+    },
   }
 }
 </script>

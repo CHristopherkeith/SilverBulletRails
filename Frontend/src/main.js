@@ -12,6 +12,7 @@ Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 
+Vue.window = window
 /* eslint-disable no-new */
 new Vue({
   el: '#appMain',

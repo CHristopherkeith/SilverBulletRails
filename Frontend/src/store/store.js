@@ -47,7 +47,7 @@ const store = new Vuex.Store({
 		},
 		// 用户信息
 		userId: null,
-		userName: null,
+		userName: '11111',
 		// login: true,
 	},
 	mutations: {
