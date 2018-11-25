@@ -39,10 +39,6 @@ class SilverBulletsController < ApplicationController
 	def verify_score
 		begin
 			current_user()
-			p 'v'*50
-			p session[:current_user_id]
-			p @_current_user
-			p 'v'*50
 			if @_current_user
 				rs = {success: true, data: nil, msg: nil}
 			else

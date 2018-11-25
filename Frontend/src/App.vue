@@ -7,55 +7,83 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import UserNav from './components/UserNav'
 export default {
   name: 'App',
   components: {UserNav},
   data(){
-    console.log(this.$store.hitsPoint, '【this.$store.userName】')
-    if(!this.$store.userName&&false){
-      return{
-        parentMenu:{
+    return {}
+    
+  },
+  computed:{
+    ...mapState([
+      'userName'
+    ]),
+    parentMenu(){
+      if(this.userName){
+        return {
+          title: this.userName,
+          path: ''
+        }
+      }else{
+        return {
           title: 'Login',
           path: 'login'
-        },
-        childMenu:[
+        }
+      }
+    },
+    childMenu(){
+      if(this.userName){
+        return [
+          {
+            title: 'Logout',
+            path: '',
+            method: 'logout'
+          }
+        ]
+      }else{
+        return [
           {
             title: 'Register',
             path: 'register'
           }
-        ],
-        navMethods:{}
+        ]
       }
-    }else{
-      return{
-        parentMenu:{
-          title: 'Login',
-          path: 'login',
-          method: 'clickItem'
-        },
-        childMenu:[
-          {
-            title: 'Register',
-            path: 'register',
-            method: 'clickItem1'
-          }
-        ],
-        navMethods:{
-          clickItem: this.clickItem,
-          clickItem1: this.clickItem1,
+    },
+    navMethods(){
+      if(this.userName){
+        return {
+          logout: this.logout,
         }
+      }else{
+        return {}
       }
     }
-    
   },
   methods:{
-    clickItem(){
-        console.log('clickItem')
+    logout(){
+        this.$store.dispatch('LOGOUT')
+        .then(
+          res=>{
+            if(res.data.success){
+              this.$store.commit('SET_USERNAME', {userName: null})
+            }else{
+              alert('出现错误：' + res.data.msg);
+            }
+          },
+          err=>{
+            if(err.data&&err.data.msg){
+              alert('出现错误：' + err.data.msg);
+            }else{
+              alert('出现错误！')
+            }
+          }
+        )
     },
-    clickItem1(){
-        console.log('clickItem111')
-    },
+  },
+  mounted(){
+    this.$store.dispatch('GET_CURRENT_USER').then(res=>{},err=>{})
   }
 }
 </script>

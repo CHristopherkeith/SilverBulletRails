@@ -47,7 +47,7 @@ const store = new Vuex.Store({
 		},
 		// 用户信息
 		userId: null,
-		userName: '11111',
+		userName: null,
 		// login: true,
 	},
 	mutations: {
@@ -333,6 +333,50 @@ const store = new Vuex.Store({
 					console.log('catch')
 					reject(err);
 				})
+			})
+		},
+		[types.LOGOUT]({commit, state}, payload){
+			return new Promise((resolve, reject)=>{
+				axios.post('/users/logout')
+				.then(
+					res=>{
+						if(res.data.success){
+							resolve(res);
+						}else{
+							reject(res);
+						}
+					},
+					err=>{
+						reject(err);
+					}
+				)
+				.catch(err=>{
+					reject(err);
+				})
+			})
+		},
+		// 当前登录的用户
+		[types.GET_CURRENT_USER]({commit, state}, payload){
+			return new Promise((resolve, reject)=>{
+				axios.get('/users/get_current_user')
+				.then(
+					res=>{
+						if(res.data.success){
+							resolve(res)
+							commit('SET_USERNAME', {userName: res.data.data.username})
+						}else{
+							reject(res);
+						}
+					},
+					err=>{
+						reject(err);
+					}
+				)
+				.catch(
+					err=>{
+						reject(err);
+					}
+				)
 			})
 		}
 	}

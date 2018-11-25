@@ -22,33 +22,16 @@
 		},
 		methods:{
 			triggerEvent(eventName){
-				// console.log(this._props, '【props】')
-				// console.log(eventName, '【eventName】')
 				if(this.navMethod){
-					console.log('【this.navMethod】')
 					if(typeof this.navMethod[eventName] === 'function'){
 						this.navMethod[eventName]();
 					}
 				}else{
-					console.log('【no no this.navMethod】')
 					if(this.$parent && typeof this.$parent[eventName] === 'function'){
 						this.$parent[eventName]();
 					}
 				}
 			}
-		},
-		created(){
-			// console.log('【created】')
-			// console.log(this._props, '【props】')
-			// console.log(this.parentMenu, '【this.parentMenu】')
-			// console.log(this.parentMenu.method, '【method】')
-		},
-		mounted(){
-			console.log('【mounted】')
-			this._props.foo = 'ffffffff';
-			console.log(this._props, '【props】')
-			console.log(this.parentMenu, '【this.parentMenu】')
-			console.log(this.parentMenu.method, '【method】')
 		}
 	}
 </script>
