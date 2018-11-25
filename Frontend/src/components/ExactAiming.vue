@@ -72,18 +72,19 @@ export default {
       addScore: 'ADD_HITS',
       maskClick: 'ADD_MISSES',
     }),
-    exactAimingStart(){
+    exactAimingStart(aimingPosition){
+      console.log('5555555555')
       this.$store.commit('SET_PLAYING', {playingState: true});
       this.$store.commit('CLEAR_SCORE');
       var cnt = 0,
           timer,
-          tempItem,
+          // tempItem,
           randomLeft,
           randomTop;
       timer = setInterval(function(){
         randomLeft = Math.random();
         randomTop = Math.random();
-        tempItem = cnt++;
+        // tempItem = cnt++;
         if(this.time >= this.durationValue){
           setTimeout(function(){
             this.$store.commit('SET_PLAYING', {playingState: false});
@@ -98,10 +99,15 @@ export default {
           }.bind(this), 550)
         }else{
           this.$store.commit('ADD_TOTAL_TARGET');
+          // this.items.push({
+          //   value: tempItem,
+          //   left: randomLeft*450,
+          //   top: randomTop*450
+          // });
           this.items.push({
-            value: tempItem,
-            left: /*randomLeft**/450,
-            top: /*randomTop**/450
+            // value: tempItem,
+            left: aimingPosition[this.time].left*450,
+            top: aimingPosition[this.time].top*450
           });
           this.time ++;
         }        

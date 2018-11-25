@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 			get 'redirect'
 			get 'login'
 			post 'verify_score'
+			get 'game_initialize'
 		end
 	end
 	post 'users/register', to: 'users#register'

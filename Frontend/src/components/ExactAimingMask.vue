@@ -54,21 +54,28 @@ export default {
   },
   methods: {
     triggerStart(e){
-      // e.cancelBubble = true;
-      // if(this.hasWalletExt){
-        this.$emit('update:maskShow', false);
-        this.$emit('trigger:exactAimingStart');
-      // }else{
-      //   alert('Please Install WebExtensionWallet First');
-      // }
+      this.axios.get('/silver_bullets/game_initialize')
+      .then(
+        res=>{
+          console.log(res, '【res】')
+          if(res.data.success){
+            this.$emit('update:maskShow', false);
+            console.log(this, '【this】')
+            this.$emit('trigger:exactAimingStart', res.data.data.initial_position);
+          }else{
+            alert('初始化游戏出现错误：' + res.data.msg);
+          }
+        },
+        err=>{
+          alert('初始化游戏出现错误:(');
+        }
+      )
     },
     confirmRecord(confirmFlag){
-      // console.log(this, '【this11111】')
       if(confirmFlag){
         this.$store.dispatch('VERIFY_SCORE', {})
         .then(
           res => {
-            // console.log(this, '【this222222】')
             console.log(res.data, '【VALIDATE_SCORE res】')
             if(res.data.success){
               console.log('res success')
@@ -151,7 +158,6 @@ export default {
     cursor: pointer;
     color: #79B6E8;
     text-align: center;
-    /*line-height: 500px;*/
     user-select: none;
     letter-spacing: 5px;
     position: absolute;
@@ -169,7 +175,6 @@ export default {
   }
   .exactAimingMask>p.instructions{
     position: absolute;
-    /*background-color: white;*/
     width: 155px;
     top: 5px;
     left: 5px;
@@ -179,7 +184,6 @@ export default {
   }
   .exactAimingMask>p.instructions>span{
     color: white;
-    /*font-weight: bolder;*/
   }
   .confirmRecordYes{
     font-size: 30px;

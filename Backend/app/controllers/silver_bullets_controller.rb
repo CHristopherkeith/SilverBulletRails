@@ -50,4 +50,27 @@ class SilverBulletsController < ApplicationController
 		end
 		render json:rs
 	end
+
+	# 游戏初始化
+	def game_initialize
+		begin
+			current_user()
+			initial_position = get_initial_position()
+			rs = {success: true, data: {initial_position: initial_position}, msg: nil}
+			if @_current_user
+				session[:initial_token] = Time.now
+				session[:initial_position] = initial_position
+			end
+		rescue Exception => e
+			# puts $!
+			rs = {success: false, data: nil, msg: e.message}
+		end
+		render json:rs
+	end
+
+	private
+	def get_initial_position()
+		initial_position = [{left:1, top:1}]
+		return initial_position
+	end
 end
