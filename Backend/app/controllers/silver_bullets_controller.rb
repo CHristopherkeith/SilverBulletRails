@@ -55,7 +55,8 @@ class SilverBulletsController < ApplicationController
 	def game_initialize
 		begin
 			current_user()
-			initial_position = get_initial_position()
+			cnt = params[:cnt] || 2
+			initial_position = get_initial_position(cnt.to_i)
 			rs = {success: true, data: {initial_position: initial_position}, msg: nil}
 			if @_current_user
 				session[:initial_token] = Time.now
@@ -69,8 +70,9 @@ class SilverBulletsController < ApplicationController
 	end
 
 	private
-	def get_initial_position()
-		initial_position = [{left:1, top:1}]
+	def get_initial_position(cnt=10)
+		# initial_position = [{left:1, top:1}]
+		initial_position = Array.new(cnt){{left:Random.rand, top:Random.rand}}
 		return initial_position
 	end
 end

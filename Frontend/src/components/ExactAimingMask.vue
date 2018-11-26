@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     triggerStart(e){
-      this.axios.get('/silver_bullets/game_initialize')
+      this.axios.get('/silver_bullets/game_initialize', {params: {cnt: 5}})
       .then(
         res=>{
           console.log(res, '【res】')
