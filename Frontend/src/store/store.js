@@ -48,6 +48,7 @@ const store = new Vuex.Store({
 		// 用户信息
 		userId: null,
 		userName: null,
+		durationValue: 1
 		// login: true,
 	},
 	mutations: {
@@ -271,8 +272,9 @@ const store = new Vuex.Store({
 		[types.VERIFY_SCORE]({commit, state}, payload){
 			return new Promise((resolve, reject)=>{
 				axios.post('/silver_bullets/verify_score', {
-					a: 'a',
-					b: 'b'
+					timeToken: new Date(),
+					position: JSON.stringify({a:1, b:2}),
+					score: state.now.score
 				})
 				.then(
 					res=>{

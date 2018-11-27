@@ -51,7 +51,7 @@ export default {
       confirmStatusValue: false,
       maskTextValue: 'CLICK TO START',
       time: 0,
-      durationValue: 1,
+      // durationValue: 1,
       ifClickMask: false,
       clickMaskStyleValue: {
         left: 0,
@@ -128,7 +128,8 @@ export default {
   computed: mapState([
     'now',
     'best',
-    'hasWalletExt'
+    'hasWalletExt',
+    'durationValue'
   ]),
   mounted: function(){
       // this.axios.post('/silver_bullets/foo', {

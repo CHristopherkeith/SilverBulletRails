@@ -43,7 +43,8 @@ export default {
       'userAddress',
       'hitsPoint',
       'missesPoint',
-      'missesTgtPoint'
+      'missesTgtPoint',
+      'durationValue'
     ]),
     // ...mapState({
     //   'userAddress1': 'userAddress',
@@ -54,13 +55,12 @@ export default {
   },
   methods: {
     triggerStart(e){
-      this.axios.get('/silver_bullets/game_initialize', {params: {cnt: 5}})
+      this.axios.get('/silver_bullets/game_initialize', {params: {cnt: this.durationValue}})
       .then(
         res=>{
           console.log(res, '【res】')
           if(res.data.success){
             this.$emit('update:maskShow', false);
-            console.log(this, '【this】')
             this.$emit('trigger:exactAimingStart', res.data.data.initial_position);
           }else{
             alert('初始化游戏出现错误：' + res.data.msg);

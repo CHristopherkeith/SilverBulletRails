@@ -10,11 +10,6 @@ class SilverBulletsController < ApplicationController
 		session
 		rs = {success: false, data: nil, msg: nil, redirect: "login"}
 		session[:current_user_id] = 1
-		# redirect_to "#{request.protocol}#{request.host_with_port}/silver_bullets/#/login"
-		# response.headers["REDIRECT"] = "REDIRECT";
-		# response.headers["CONTEXTPATH"] = "login";
-		# response.headers["foo11"] = "bar11"
-		# response.headers.delete("foo11")
 		render json: rs
 	end
 	def redirect
@@ -25,14 +20,7 @@ class SilverBulletsController < ApplicationController
 		puts request.host_with_port
 		p '222222222222222'
 		rs = {a:'a'}
-		# response.headers["location"] = "www.baidu.com"
-		# redirect_to(:action => 'login')
-		# redirect_to(:controller=>'silver_bullets#/login')
-		# redirect_to "http://localhost:3000/silver_bullets/#/login"
 		redirect_to "#{request.protocol}#{request.host_with_port}/silver_bullets/#/login"
-		# redirect_to "https://www.baidu.com/"
-		# redirect_to( :location=>"www.baidu.com")
-		# render json:rs
 	end
 
 	# 验证分数
@@ -40,6 +28,16 @@ class SilverBulletsController < ApplicationController
 		begin
 			current_user()
 			if @_current_user
+				to_verify_data = {
+					time_token: params[:timeToken],
+					position: params[:position],
+					score: params[:score]
+				}
+				origin_data = {
+					time_token: session[:initial_token],
+					initial_position: session[:initial_position]
+				}
+				verify_rs = verify_data(to_verify_data, origin_data)
 				rs = {success: true, data: nil, msg: nil}
 			else
 				rs = {success: false, data: nil, msg: nil, redirect: "login"}
@@ -70,9 +68,33 @@ class SilverBulletsController < ApplicationController
 	end
 
 	private
+
+	# 初始化游戏
 	def get_initial_position(cnt=10)
-		# initial_position = [{left:1, top:1}]
-		initial_position = Array.new(cnt){{left:Random.rand, top:Random.rand}}
+		# initial_position = Array.new(cnt){{left:Random.rand, top:Random.rand}}
+		initial_position = Array.new(cnt){{left:1, top:1}}
 		return initial_position
+	end
+
+	# 验证数据
+	# 时间token+位置+分数
+	# 参数 data={time_token:nil, position: nil, score: nil}
+	def verify_data(data, origin_data)
+		require "time"
+		rs = {success: true, data: nil, msg: ''}
+		if !data[:time_token] || !data[:position] || !data[:score]
+			rs = {success: false, data: nil, msg: '无效数据'}			
+		else
+			puts '1'*50
+			puts data
+			puts '2'*50
+			puts origin_data
+			puts '3'*50
+			puts Time.parse(origin_data[:time_token])
+			puts Time.parse(data[:time_token])
+			puts Time.parse(data[:time_token]) - Time.parse(origin_data[:time_token])
+			puts '4'*50
+		end
+		return rs
 	end
 end
