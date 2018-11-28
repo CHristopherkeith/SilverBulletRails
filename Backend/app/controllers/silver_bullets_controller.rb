@@ -35,7 +35,8 @@ class SilverBulletsController < ApplicationController
 				}
 				origin_data = {
 					time_token: session[:initial_token],
-					initial_position: session[:initial_position]
+					initial_position: session[:initial_position],
+					cnt: session[:cnt]
 				}
 				verify_rs = verify_data(to_verify_data, origin_data)
 				rs = {success: true, data: nil, msg: nil}
@@ -58,6 +59,7 @@ class SilverBulletsController < ApplicationController
 			rs = {success: true, data: {initial_position: initial_position}, msg: nil}
 			if @_current_user
 				session[:initial_token] = Time.now
+				session[:cnt] = cnt
 				session[:initial_position] = initial_position
 			end
 		rescue Exception => e
@@ -82,8 +84,8 @@ class SilverBulletsController < ApplicationController
 	def verify_data(data, origin_data)
 		require "time"
 		rs = {success: true, data: nil, msg: ''}
-		if !data[:time_token] || !data[:position] || !data[:score]
-			rs = {success: false, data: nil, msg: '无效数据'}			
+		if !(data[:time_token]&&data[:position]&&data[:score])
+			rs = {success: false, data: nil, msg: '无效数据'}
 		else
 			puts '1'*50
 			puts data
@@ -94,7 +96,16 @@ class SilverBulletsController < ApplicationController
 			puts Time.parse(data[:time_token])
 			puts Time.parse(data[:time_token]) - Time.parse(origin_data[:time_token])
 			puts '4'*50
+			# #################
+
+			# 判断时间间隔，不能小于初始化时需要的时间间隔
+			if origin_data[:cnt].to_i >= Time.parse(data[:time_token]) - Time.parse(origin_data[:time_token])
+				rs = {success: false, data: nil, msg: '数据验证失败：游戏时长过短'}
+			# elsif
+			end
 		end
+		puts '5'*50
+		puts rs
 		return rs
 	end
 end

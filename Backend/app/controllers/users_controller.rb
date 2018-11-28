@@ -45,7 +45,7 @@ class UsersController < ApplicationController
 		rs = {success: true, data: nil, msg: ""}
 		begin
 			# 从会话中删除用户的 ID
-			@_current_user = session[:current_user_id] = session[:initial_token] = session[:initial_position] = nil
+			@_current_user = session[:current_user_id] = session[:initial_token] = session[:initial_position] = session[:cnt] = nil
 		rescue Exception => e
 			puts e.message
 			puts $@
