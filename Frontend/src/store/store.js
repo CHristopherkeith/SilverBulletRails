@@ -48,8 +48,12 @@ const store = new Vuex.Store({
 		// 用户信息
 		userId: null,
 		userName: null,
-		durationValue: 1
+		durationValue: 1,
 		// login: true,
+		// 记录游戏过程的点击行为，分数验证所需参数
+		// [[20, 100, 130],......,[time, left, right] ]
+		processRecord:[],
+		startTime: null,
 	},
 	mutations: {
 		[types.CHANGE_SCORE](state,payload){
@@ -116,6 +120,15 @@ const store = new Vuex.Store({
 			state.userName = payload.userName;
 			console.log(state.userName, '【state.userName】')
 		},
+		[types.INIT_PROCESS_RECORD](state, payload){
+			state.processRecord = [];
+			state.startTime = new Date();
+			console.log(state.processRecord, '【state.processRecord】')
+		},
+		[types.PUSH_PROCESS_RECORD](state, payload){
+			state.processRecord.push(payload);
+			console.log(state.processRecord, '【state.processRecord】')
+		}
 	},
 	actions: {
 		[types.GET_USER_ADDRESS]({commit, state, dispatch}){

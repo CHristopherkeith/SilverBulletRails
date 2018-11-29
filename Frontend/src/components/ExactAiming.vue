@@ -68,14 +68,23 @@ export default {
         this.$store.commit('ADD_MISSES_TARGET');
       }
     },
-    ...mapMutations({
-      addScore: 'ADD_HITS',
-      maskClick: 'ADD_MISSES',
-    }),
+    // ...mapMutations({
+    //   addScore: 'ADD_HITS',
+    //   maskClick: 'ADD_MISSES',
+    // }),
+    addScore(processRecord){
+      this.$store.commit('ADD_HITS');
+      this.$store.commit('PUSH_PROCESS_RECORD', processRecord);
+    },
+    maskClick(processRecord){
+      this.$store.commit('ADD_MISSES');
+      this.$store.commit('PUSH_PROCESS_RECORD', processRecord);
+    },
     exactAimingStart(aimingPosition){
       console.log('5555555555')
       this.$store.commit('SET_PLAYING', {playingState: true});
       this.$store.commit('CLEAR_SCORE');
+      this.$store.commit('INIT_PROCESS_RECORD');
       var cnt = 0,
           timer,
           // tempItem,
@@ -92,14 +101,14 @@ export default {
             this.maskShowValue = true;
             this.maskTextValue = 'PLAY AGAIN?CLICK!';
             this.time = 0;
-            // console.log(this.now.score, 'score')
+            console.log(this.$store.state.processRecord, '【processRecord】')
             if(this.now.score > this.best.exactScore){
               this.confirmStatusValue = true;
             }
           }.bind(this), 550)
         }else{
-          randomLeft = aimingPosition[this.time].left;
-          randomTop =  aimingPosition[this.time].top;
+          randomLeft = aimingPosition[this.time][0];
+          randomTop =  aimingPosition[this.time][1];
           this.$store.commit('ADD_TOTAL_TARGET');
           this.items.push({
             // value: tempItem,

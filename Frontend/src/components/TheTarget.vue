@@ -4,6 +4,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'TheTarget',
   props: ['left', 'top'],
@@ -12,13 +13,18 @@ export default {
       isClick: false
     }
   },
+  computed:{
+    ...mapState(['startTime']),
+  },
   methods: {
     clickTarget(e){
+      console.log(e, '【e】')
       this.isClick = true;
       let scaleFactorMathcRes, scaleFactor, width, height;
       width = this.$el.offsetWidth;
       height = this.$el.offsetHeight;
       scaleFactorMathcRes = window.getComputedStyle(this.$el).getPropertyValue('transform').match(/matrix\((.+)\)/i);
+      console.log(this.left, this.top)
       if(scaleFactorMathcRes){
         scaleFactor = scaleFactorMathcRes[1].split(',')[0];
         this.$emit('add:clickMask', {
@@ -29,7 +35,8 @@ export default {
         });
       }
       this.$el.parentNode.removeChild(this.$el);
-      this.$emit('addScore');
+      console.log(this.startTime)
+      this.$emit('addScore', [new Date() - this.startTime, this.left, this.top]);
     }
 
   }
