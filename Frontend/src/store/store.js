@@ -48,7 +48,7 @@ const store = new Vuex.Store({
 		// 用户信息
 		userId: null,
 		userName: null,
-		durationValue: 1,
+		durationValue: 3,
 		// login: true,
 		// 记录游戏过程的点击行为，分数验证所需参数
 		// [[20, 100, 130],......,[time, left, right] ]
@@ -120,14 +120,17 @@ const store = new Vuex.Store({
 			state.userName = payload.userName;
 			console.log(state.userName, '【state.userName】')
 		},
-		[types.INIT_PROCESS_RECORD](state, payload){
-			state.processRecord = [];
-			state.startTime = new Date();
-			console.log(state.processRecord, '【state.processRecord】')
+		[types.SET_PROCESS_RECORD](state, {processRecord, startTime}){
+			// if(processRecord !== undefined){
+				state.processRecord = [];
+			// }
+			// if(startTime !== undefined){
+				state.startTime = startTime;
+			// }
+			console.log(state.startTime, '【state.startTime】')
 		},
 		[types.PUSH_PROCESS_RECORD](state, payload){
 			state.processRecord.push(payload);
-			console.log(state.processRecord, '【state.processRecord】')
 		}
 	},
 	actions: {
@@ -286,7 +289,7 @@ const store = new Vuex.Store({
 			return new Promise((resolve, reject)=>{
 				axios.post('/silver_bullets/verify_score', {
 					timeToken: new Date(),
-					position: JSON.stringify({a:1, b:2}),
+					position: JSON.stringify(state.processRecord),
 					score: state.now.score
 				})
 				.then(

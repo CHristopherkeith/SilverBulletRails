@@ -74,7 +74,7 @@ class SilverBulletsController < ApplicationController
 	# 初始化游戏
 	def get_initial_position(cnt=10)
 		# initial_position = Array.new(cnt){[Random.rand, Random.rand]}
-		initial_position = Array.new(cnt){[1, 1]}
+		initial_position = Array.new(cnt){[0, 0]}
 		return initial_position
 	end
 

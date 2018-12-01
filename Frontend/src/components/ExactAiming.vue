@@ -76,32 +76,45 @@ export default {
       this.$store.commit('ADD_HITS');
       this.$store.commit('PUSH_PROCESS_RECORD', processRecord);
     },
-    maskClick(processRecord){
-      this.$store.commit('ADD_MISSES');
-      this.$store.commit('PUSH_PROCESS_RECORD', processRecord);
+    maskClick(e){
+      if(this.playing){
+        this.$store.commit('ADD_MISSES');
+        let screenLeft, screenTop, processRecord;
+        // console.log(e.target, '【e.target】')
+        screenLeft = e.target.offsetParent.offsetLeft;
+        screenTop = e.target.offsetParent.offsetTop;
+        // console.log(screenLeft, screenTop, '【screenLeft, screenTop】')
+        processRecord = [new Date() - this.startTime, e.x-screenLeft-20, e.y-screenTop-20];
+        // console.log(processRecord, '【maskClick processRecord】')
+        this.$store.commit('PUSH_PROCESS_RECORD', processRecord);
+      }
     },
     exactAimingStart(aimingPosition){
-      console.log('5555555555')
       this.$store.commit('SET_PLAYING', {playingState: true});
       this.$store.commit('CLEAR_SCORE');
-      this.$store.commit('INIT_PROCESS_RECORD');
+      this.$store.commit('SET_PROCESS_RECORD', {startTime: null});
       var cnt = 0,
           timer,
           // tempItem,
           randomLeft,
           randomTop;
       timer = setInterval(function(){
+        if(!this.startTime){
+          this.$store.commit('SET_PROCESS_RECORD', {startTime: new Date()});
+        }
         // randomLeft = Math.random();
         // randomTop = Math.random();
         // tempItem = cnt++;
         if(this.time >= this.durationValue){
           setTimeout(function(){
             this.$store.commit('SET_PLAYING', {playingState: false});
+            // this.$store.commit('SET_PROCESS_RECORD', {startTime: null});
             clearTimeout(timer);
             this.maskShowValue = true;
             this.maskTextValue = 'PLAY AGAIN?CLICK!';
             this.time = 0;
             console.log(this.$store.state.processRecord, '【processRecord】')
+            console.log(aimingPosition, '【aimingPosition】')
             if(this.now.score > this.best.exactScore){
               this.confirmStatusValue = true;
             }
@@ -138,7 +151,9 @@ export default {
     'now',
     'best',
     'hasWalletExt',
-    'durationValue'
+    'durationValue',
+    'startTime',
+    'playing'
   ]),
   mounted: function(){
       // this.axios.post('/silver_bullets/foo', {
@@ -249,7 +264,7 @@ export default {
     }
   }
   .fade-leave-active {
-    transition: opacity 1.0s;
+    /*transition: opacity 1.0s;*/
   }
   .fade-leave-to{
     opacity: 0;

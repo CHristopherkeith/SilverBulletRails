@@ -58,7 +58,6 @@ export default {
       this.axios.get('/silver_bullets/game_initialize', {params: {cnt: this.durationValue}})
       .then(
         res=>{
-          console.log(res, '【res】')
           if(res.data.success){
             this.$emit('update:maskShow', false);
             this.$emit('trigger:exactAimingStart', res.data.data.initial_position);

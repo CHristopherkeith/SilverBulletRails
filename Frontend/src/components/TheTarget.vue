@@ -18,13 +18,15 @@ export default {
   },
   methods: {
     clickTarget(e){
-      console.log(e, '【e】')
+      // console.log(e, '【e】')
       this.isClick = true;
-      let scaleFactorMathcRes, scaleFactor, width, height;
+      let scaleFactorMathcRes, scaleFactor, width, height, screenLeft, screenTop;
       width = this.$el.offsetWidth;
       height = this.$el.offsetHeight;
+      screenLeft = this.$el.offsetParent.offsetParent.offsetLeft;
+      screenTop = this.$el.offsetParent.offsetParent.offsetTop;
       scaleFactorMathcRes = window.getComputedStyle(this.$el).getPropertyValue('transform').match(/matrix\((.+)\)/i);
-      console.log(this.left, this.top)
+      // console.log(screenLeft, screenTop, '【left top】')
       if(scaleFactorMathcRes){
         scaleFactor = scaleFactorMathcRes[1].split(',')[0];
         this.$emit('add:clickMask', {
@@ -34,9 +36,10 @@ export default {
           height:height*scaleFactor
         });
       }
+      // console.log(this.left, this.top, '【lltt】')
+      // console.log(this.startTime)
       this.$el.parentNode.removeChild(this.$el);
-      console.log(this.startTime)
-      this.$emit('addScore', [new Date() - this.startTime, this.left, this.top]);
+      this.$emit('addScore', [new Date() - this.startTime, e.x-screenLeft-20, e.y-screenTop-20, true]);
     }
 
   }
