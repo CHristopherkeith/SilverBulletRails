@@ -7,7 +7,7 @@
 import {mapState} from 'vuex'
 export default {
   name: 'TheTarget',
-  props: ['left', 'top'],
+  props: ['left', 'top', 'index'],
   data () {
     return {
       isClick: false
@@ -18,7 +18,6 @@ export default {
   },
   methods: {
     clickTarget(e){
-      // console.log(e, '【e】')
       this.isClick = true;
       let scaleFactorMathcRes, scaleFactor, width, height, screenLeft, screenTop;
       width = this.$el.offsetWidth;
@@ -26,7 +25,6 @@ export default {
       screenLeft = this.$el.offsetParent.offsetParent.offsetLeft;
       screenTop = this.$el.offsetParent.offsetParent.offsetTop;
       scaleFactorMathcRes = window.getComputedStyle(this.$el).getPropertyValue('transform').match(/matrix\((.+)\)/i);
-      // console.log(screenLeft, screenTop, '【left top】')
       if(scaleFactorMathcRes){
         scaleFactor = scaleFactorMathcRes[1].split(',')[0];
         this.$emit('add:clickMask', {
@@ -36,10 +34,8 @@ export default {
           height:height*scaleFactor
         });
       }
-      // console.log(this.left, this.top, '【lltt】')
-      // console.log(this.startTime)
       this.$el.parentNode.removeChild(this.$el);
-      this.$emit('addScore', [new Date() - this.startTime, e.x-screenLeft-20, e.y-screenTop-20, true]);
+      this.$emit('addScore', {time: new Date() - this.startTime, x: e.x-screenLeft-20, y: e.y-screenTop-20, hit:true, index:this.index});
     }
 
   }
@@ -49,9 +45,5 @@ export default {
 <style scoped>
   .clickCls{
     background-color: gray !important;
-  }
-  .thetarget{
-    /*background: url(../assets/img/inu.jpg) no-repeat center center;
-    background-size: 100% 100%;*/
   }
 </style>

@@ -75,10 +75,7 @@ export default {
         this.$store.dispatch('VERIFY_SCORE', {})
         .then(
           res => {
-            console.log(res.data, '【VALIDATE_SCORE res】')
             if(res.data.success){
-              console.log('res success')
-              // ////////////////
               if(!this.hasWalletExt){
                 alert('Please Install WebExtensionWallet First');
                 return;
@@ -92,7 +89,6 @@ export default {
                     loadingMaskShow: false
                   })
                   if(res.status === 1){
-                    console.log('【success】')
                     this.$store.commit('SET_SCORE', {
                       exactScore: this.$store.state.now.score,
                       exactMisses: this.$store.state.now.misses,
@@ -103,7 +99,6 @@ export default {
                     })
                   }else{
                     alert(res.execute_result)
-                    console.log('【fail】')
                   }
                 },
                 err => {
@@ -111,13 +106,10 @@ export default {
                     loadingMaskShow: false
                   })
                   alert(err.execute_result)
-                  console.log(err, '【err confirmRecord】')
                 }
               )
             }else{
               if(res.data.redirect){
-                console.log('【redirect】')
-                // console.log(this, '【this】')
                 this.$router.push({path: res.data.redirect})
               }else{
                 alert('出现错误：' + res.data.msg);
@@ -125,7 +117,6 @@ export default {
             }
           },
           err => {
-            console.log(err, '【VALIDATE_SCORE err】')
             if(err.data&&err.data.msg){
               alert('出现错误：' + err.data.msg);
             }else{

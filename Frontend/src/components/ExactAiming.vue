@@ -15,7 +15,7 @@
       ></ExactAimingMask>
       <transition-group name="list-complete"
         v-on:after-enter="afterEnter">
-        <TheTarget v-for="(item,index) in items" :key="index" :left="item.left" :top="item.top" class="list-complete-item" @addScore="addScore" @add:clickMask="addClickMask"></TheTarget>
+        <TheTarget v-for="(item,index) in items" :key="index" :index="index%durationValue" :left="item.left" :top="item.top" class="list-complete-item" @addScore="addScore" @add:clickMask="addClickMask"></TheTarget>
       </transition-group>
       <transition name="fade">
         <ClickMask v-if="ifClickMask" :clickMaskStyle="clickMaskStyleValue"></ClickMask>
@@ -80,12 +80,9 @@ export default {
       if(this.playing){
         this.$store.commit('ADD_MISSES');
         let screenLeft, screenTop, processRecord;
-        // console.log(e.target, '【e.target】')
         screenLeft = e.target.offsetParent.offsetLeft;
         screenTop = e.target.offsetParent.offsetTop;
-        // console.log(screenLeft, screenTop, '【screenLeft, screenTop】')
-        processRecord = [new Date() - this.startTime, e.x-screenLeft-20, e.y-screenTop-20];
-        // console.log(processRecord, '【maskClick processRecord】')
+        processRecord = {time: new Date() - this.startTime, x: e.x-screenLeft-20, y: e.y-screenTop-20};
         this.$store.commit('PUSH_PROCESS_RECORD', processRecord);
       }
     },
@@ -108,13 +105,11 @@ export default {
         if(this.time >= this.durationValue){
           setTimeout(function(){
             this.$store.commit('SET_PLAYING', {playingState: false});
-            // this.$store.commit('SET_PROCESS_RECORD', {startTime: null});
             clearTimeout(timer);
             this.maskShowValue = true;
             this.maskTextValue = 'PLAY AGAIN?CLICK!';
             this.time = 0;
             console.log(this.$store.state.processRecord, '【processRecord】')
-            console.log(aimingPosition, '【aimingPosition】')
             if(this.now.score > this.best.exactScore){
               this.confirmStatusValue = true;
             }
@@ -153,20 +148,9 @@ export default {
     'hasWalletExt',
     'durationValue',
     'startTime',
-    'playing'
+    'playing',
   ]),
   mounted: function(){
-      // this.axios.post('/silver_bullets/foo', {
-      //   a: 'a',
-      //   b: 'b'
-      // })
-      // .then(function (res){
-      //   console.log(res.data, '【res】');
-      // })
-      // .catch(function (err) {
-      //   console.log(err, '【err】');
-      // })
-
       this.$store.commit('CHECK_WALLET_EXT');
       if(!this.hasWalletExt){
         // this.maskTextValue = 'Please Install WebExtensionWallet First';
@@ -174,19 +158,16 @@ export default {
         // return;
         this.$store.dispatch('GET_USER_ADDRESS').then(
           res => {
-            // console.log(res, '【GET_USER_ADDRESS res】');
             this.$store.commit('SET_USER_ADDRESS', res);
             return this.$store.dispatch('GET_ACCOUNT_STATE');
           }
         ).then(
           res => {
-            // console.log(res, '【GET_ACCOUNT_STATE res】');
             return this.$store.dispatch('GET_STORE', res)
           },
           err => {console.log(err, '【GET_ACCOUNT_STATE err】');}
         ).then(
           res => {
-            // console.log(res, '【GET_STORE res】');
             if(res){
               this.$store.commit('SET_SCORE', res);
             }
@@ -264,7 +245,7 @@ export default {
     }
   }
   .fade-leave-active {
-    /*transition: opacity 1.0s;*/
+    transition: opacity 1.0s;
   }
   .fade-leave-to{
     opacity: 0;

@@ -1,6 +1,5 @@
 <template>
   <div class="login" :class="{loginCls: login&&false}">
-    <!-- <h1>{{ msg }}</h1> -->
     <div class="loginContent">
     	<span class="loginTitle" >Username</span>
     	<input v-model="username" class="loginInput" type="text" placeholder="Pick a username" />
@@ -21,8 +20,6 @@ export default {
   props: ['login'],
   data () {
     return {
-      // msg: 'Register for SilverBullet',
-      // login: false
       username: '',
       email: '',
       password: ''
@@ -31,7 +28,6 @@ export default {
   methods: {
   	loginOrRegister(){
   		if(this.login){
-  			console.log('【login】')
   			this.$store.dispatch('LOGIN',{
   				username: this.username,
   				password: this.password
@@ -39,7 +35,6 @@ export default {
   			.then(
   				res=>{
   					if(res.data.success){
-  						// alert('登录成功');
   						this.$store.commit('SET_USERNAME', {userName: res.data.data.username})
   						this.$router.push({path: '/'});
   					}else{
@@ -55,7 +50,6 @@ export default {
   				}
   			)
   		}else{
-  			console.log('【register】')
   			this.$store.dispatch('REGISTER',{
   				username: this.username,
   				email: this.email,
@@ -86,9 +80,6 @@ export default {
   	msg(){
   		return this.login ? 'Login for SilverBullet' : 'Register for SilverBullet';
   	}
-  },
-  created(){
-  	console.log(this.login, '【login】')
   }
 }
 </script>

@@ -48,10 +48,10 @@ const store = new Vuex.Store({
 		// 用户信息
 		userId: null,
 		userName: null,
-		durationValue: 3,
+		durationValue:30,
 		// login: true,
 		// 记录游戏过程的点击行为，分数验证所需参数
-		// [[20, 100, 130],......,[time, left, right] ]
+		// [{time:20, x:100, y:130},......,]
 		processRecord:[],
 		startTime: null,
 	},
@@ -118,16 +118,10 @@ const store = new Vuex.Store({
 		},
 		[types.SET_USERNAME](state,payload){
 			state.userName = payload.userName;
-			console.log(state.userName, '【state.userName】')
 		},
 		[types.SET_PROCESS_RECORD](state, {processRecord, startTime}){
-			// if(processRecord !== undefined){
-				state.processRecord = [];
-			// }
-			// if(startTime !== undefined){
-				state.startTime = startTime;
-			// }
-			console.log(state.startTime, '【state.startTime】')
+			state.processRecord = [];
+			state.startTime = startTime;
 		},
 		[types.PUSH_PROCESS_RECORD](state, payload){
 			state.processRecord.push(payload);
@@ -136,7 +130,6 @@ const store = new Vuex.Store({
 	actions: {
 		[types.GET_USER_ADDRESS]({commit, state, dispatch}){
 			return new Promise((resolve, reject)=>{
-				// console.log("********* get account ************")
 			    window.postMessage({
 			        "target": "contentscript",
 			        "data":{
@@ -203,7 +196,6 @@ const store = new Vuex.Store({
 					callback: NebPay.config.testnetUrl,
 					listener: (serialNumber, result)=>{
 						if( !(result&&Object.prototype.toString.call(result) === '[object Object]') ){
-							console.log('【cancle】')
 							return
 						}
 						commit('CHANGE_LOADING_MASK', {
@@ -217,13 +209,11 @@ const store = new Vuex.Store({
 							.then(
 								res => {
 									if(res.status === 1 || res.status === 0){
-										// console.log(res, '【res getTransactionReceipt】');
 										clearInterval(intervalQuery);
 										resolve(res);
 									}
 								},
 								err => {
-									console.log(err, '【err getTransactionReceipt】')
 									clearInterval(intervalQuery);
 									reject(err);
 								}
@@ -249,11 +239,9 @@ const store = new Vuex.Store({
 				   }
 	            }).then(
 	            	res => {
-	            		// console.log(res, '【GET_NUM_OF_PLAYER res】')
 	            		resolve(res);
 	            	},
 	            	err => {
-	            		console.log(err, '【GET_NUM_OF_PLAYER err】')
 						reject(err);
 					}
 	            )
@@ -275,11 +263,9 @@ const store = new Vuex.Store({
 				   }
 	            }).then(
 	            	res => {
-	            		// console.log(res, '【FOR_EACH res】')
 	            		resolve(res);
 	            	},
 	            	err => {
-	            		// console.log(err, '【FOR_EACH err】')
 						reject(err);
 					}
 	            )
@@ -297,18 +283,15 @@ const store = new Vuex.Store({
 						resolve(res);
 					},
 					err=>{
-						console.log('err')
 						reject(err);
 					}
 				)
 				.catch(err=>{
-					console.log('catch')
 					reject(err);
 				})
 			})
 		},
 		[types.REGISTER]({commit, state}, payload){
-			console.log(payload, '【REGISTER payload】')
 			return new Promise((resolve, reject)=>{
 				axios.post('/users/register', payload)
 				.then(
@@ -320,18 +303,15 @@ const store = new Vuex.Store({
 						}
 					},
 					err=>{
-						console.log('err')
 						reject(err);
 					}
 				)
 				.catch(err=>{
-					console.log('catch')
 					reject(err);
 				})
 			})
 		},
 		[types.LOGIN]({commit, state}, payload){
-			console.log(payload, '【REGISTER payload】')
 			return new Promise((resolve, reject)=>{
 				axios.post('/users/login', payload)
 				.then(
@@ -343,12 +323,10 @@ const store = new Vuex.Store({
 						}
 					},
 					err=>{
-						console.log('err')
 						reject(err);
 					}
 				)
 				.catch(err=>{
-					console.log('catch')
 					reject(err);
 				})
 			})
