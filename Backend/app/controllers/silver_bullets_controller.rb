@@ -42,6 +42,9 @@ class SilverBulletsController < ApplicationController
 				verify_rs = verify_data(to_verify_data, origin_data)
 				if !verify_rs[:success]
 					rs = {success: false, data: nil, msg: verify_rs[:msg]}
+				else
+					# 存数据库
+					Score.create_or_update_score(@_current_user, params[:score], session[:current_user_id])
 				end
 			else
 				rs = {success: false, data: nil, msg: nil, redirect: "login"}
@@ -76,8 +79,8 @@ class SilverBulletsController < ApplicationController
 
 	# 初始化游戏
 	def get_initial_position(cnt=10)
-		initial_position = Array.new(cnt){[Random.rand, Random.rand]}
-		# initial_position = Array.new(cnt){[0, 0]}
+		# initial_position = Array.new(cnt){[Random.rand, Random.rand]}
+		initial_position = Array.new(cnt){[0, 0]}
 		# initial_position = [[0,0],[0.1,0.1],[0.2,0.2]];
 		# initial_position = [[0,0]];
 		return initial_position

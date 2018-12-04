@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+	has_one :score
 	# 注册验证
 	def self.register_authenticate(username, password)
 		if username&&password&&username!=""&&password!=""
