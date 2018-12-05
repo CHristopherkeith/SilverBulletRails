@@ -18,7 +18,10 @@ export default {
   },
   computed:{
     ...mapState([
-      'userName'
+      'userName',
+      'hasWalletExt',
+      'backEndScore',
+      'best'
     ]),
     parentMenu(){
       if(this.userName){
@@ -35,13 +38,29 @@ export default {
     },
     childMenu(){
       if(this.userName){
-        return [
+        var childMenuArr = [
           {
             title: 'Logout',
             path: '',
             method: 'logout'
           }
         ]
+        if(this.hasWalletExt){
+          if(this.backEndScore&&this.backEndScore>this.best.exactScore){
+            childMenuArr.push({
+              title: 'OnChain',
+              // method: 'logout'
+            })
+          }
+          if(this.backEndScore&&this.backEndScore>0&&this.backEndScore==this.best.exactScore){
+            childMenuArr.push({
+              title: 'Withdraw',
+              // method: 'logout'
+            })
+          }
+          
+        }
+        return childMenuArr;
       }else{
         return [
           {

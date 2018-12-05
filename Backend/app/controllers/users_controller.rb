@@ -59,7 +59,12 @@ class UsersController < ApplicationController
 		begin
 			current_user()
 			if @_current_user
-				rs = {success: true, data: {username: @_current_user.name}, msg: ""}
+				if @_current_user.score
+					score = @_current_user.score.score
+				else
+					score = nil
+				end
+				rs = {success: true, data: {username: @_current_user.name, score: score&&8600}, msg: ""}
 			else
 				rs = {success: false, data: nil, msg: ""}
 			end

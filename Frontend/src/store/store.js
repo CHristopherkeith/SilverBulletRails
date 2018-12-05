@@ -45,6 +45,8 @@ const store = new Vuex.Store({
 			pressMisses: 0,
 			pressMissesTgt: 0,
 		},
+		// 后台存储的分数
+		backEndScore: null,
 		// 用户信息
 		userId: null,
 		userName: null,
@@ -88,7 +90,7 @@ const store = new Vuex.Store({
 		},
 		[types.SET_SCORE](state, payload){
 			state.best = payload;
-			state.best.exactScore = 0;
+			// state.best.exactScore = 0;
 		},
 		[types.ADD_MISSES](state,payload){
 			if(state.playing){
@@ -125,6 +127,10 @@ const store = new Vuex.Store({
 		},
 		[types.PUSH_PROCESS_RECORD](state, payload){
 			state.processRecord.push(payload);
+		},
+		[types.SET_BACKEND_SCORE](state, payload){
+			state.backEndScore = payload.score;
+			console.log(state.backEndScore, '【state.backEndScore】')
 		}
 	},
 	actions: {
@@ -360,6 +366,7 @@ const store = new Vuex.Store({
 						if(res.data.success){
 							resolve(res)
 							commit('SET_USERNAME', {userName: res.data.data.username})
+							commit('SET_BACKEND_SCORE', {score: res.data.data.score})
 						}else{
 							reject(res);
 						}
