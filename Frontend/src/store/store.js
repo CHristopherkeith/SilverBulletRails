@@ -38,6 +38,7 @@ const store = new Vuex.Store({
 		hasWalletExt: true,
 		userAddress: '',
 		best: {
+			// exactScore: 0,
 			exactScore: 0,
 			exactMisses: 0,
 			exactMissesTgt: 0,
@@ -188,12 +189,19 @@ const store = new Vuex.Store({
 			})
 		},
 		[types.SAVE_STORE]({commit, state}, payload={type: 'exact'}){
-			let value = JSON.stringify({
-				// score: parseInt(state.best.exactScore)+1,
-				score:  state.now.score,
-	            misses: state.now.misses,
-	            missesTgt: state.now.missesTgt
-			});
+			let scoreData;
+			if(payload.scoreData){
+				scoreData = payload.scoreData;
+			}else{
+				scoreData = {
+					// score: parseInt(state.best.exactScore)+1,
+					score:  state.now.score,
+		            misses: state.now.misses,
+		            missesTgt: state.now.missesTgt
+				}
+			}
+			console.log(scoreData, '【scoreData】')
+			let value = JSON.stringify(scoreData);
 			let type = payload.type;
 			return new Promise((resolve, reject) =>{
 				nebPay.call(contractAddress, 0, 'saveScore',JSON.stringify([value, type]), {

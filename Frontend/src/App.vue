@@ -49,13 +49,13 @@ export default {
           if(this.backEndScore&&this.backEndScore>this.best.exactScore){
             childMenuArr.push({
               title: 'OnChain',
-              // method: 'logout'
+              method: 'onChain'
             })
           }
           if(this.backEndScore&&this.backEndScore>0&&this.backEndScore==this.best.exactScore){
             childMenuArr.push({
               title: 'Withdraw',
-              // method: 'logout'
+              method: 'withdraw'
             })
           }
           
@@ -74,6 +74,8 @@ export default {
       if(this.userName){
         return {
           logout: this.logout,
+          withdraw: this.withdraw,
+          onChain: this.onChain
         }
       }else{
         return {}
@@ -100,6 +102,45 @@ export default {
           }
         )
     },
+    withdraw(){
+      console.log('【withdraw】')
+    },
+    onChain(){
+      console.log('【onChain】')
+      this.$store.dispatch('SAVE_STORE', {
+        type: 'exact',
+        scoreData: {
+          score:  this.backEndScore,
+          misses:0,
+          missesTgt: 0
+        }
+      })
+      .then(
+        res => {
+          this.$store.commit('CHANGE_LOADING_MASK', {
+            loadingMaskShow: false
+          })
+          if(res.status === 1){
+            this.$store.commit('SET_SCORE', {
+              exactScore: this.$store.state.now.score,
+              exactMisses: /*this.$store.state.now.misses*/0,
+              exactMissesTgt: /*this.$store.state.now.missesTgt*/0,
+              pressScore: 0,
+              pressMisses: 0,
+              pressMissesTgt: 0,
+            })
+          }else{
+            alert(res.execute_result)
+          }
+        },
+        err => {
+          this.$store.commit('CHANGE_LOADING_MASK', {
+            loadingMaskShow: false
+          })
+          alert(err.execute_result)
+        }
+      )
+    }
   },
   mounted(){
     this.$store.dispatch('GET_CURRENT_USER').then(res=>{},err=>{})
