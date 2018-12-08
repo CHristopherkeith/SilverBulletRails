@@ -1,6 +1,6 @@
 <template>
 <div class="exactaimingRoot">
-  <LoadingMask></LoadingMask>
+  <!-- <LoadingMask></LoadingMask> -->
   <div class="exactaiming">
   	<div class="mainPanel" @click="maskClick">
       <span class="time" v-show="!maskShowValue">{{time}} s</span>
@@ -30,7 +30,7 @@
 
 <script>
 import ClickMask from './ClickMask'
-import LoadingMask from './LoadingMask'
+// import LoadingMask from './LoadingMask'
 import TheTarget from './TheTarget'
 import ExactAimingMask from './ExactAimingMask'
 import RecordBoard from './RecordBoard'
@@ -38,7 +38,7 @@ import { mapMutations } from 'vuex'
 import { mapState } from 'vuex'
 export default {
   name: 'ExactAiming',
-  components: {TheTarget, ExactAimingMask, RecordBoard, LoadingMask, ClickMask},
+  components: {TheTarget, ExactAimingMask, RecordBoard, /*LoadingMask,*/ ClickMask},
   data () {
     return {
       items: [/*{

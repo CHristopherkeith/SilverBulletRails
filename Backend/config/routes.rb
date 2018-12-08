@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 			get 'login'
 			post 'verify_score'
 			get 'game_initialize'
+			post 'withdraw'
 		end
 	end
 	post 'users/register', to: 'users#register'

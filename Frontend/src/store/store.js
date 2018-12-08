@@ -389,6 +389,24 @@ const store = new Vuex.Store({
 					}
 				)
 			})
+		},
+		// 提现
+		[types.WITHDRAW]({commit, state}, payload){
+			return new Promise((resolve, reject)=>{
+				axios.post('/silver_bullets/withdraw')
+				.then(
+					res=>{
+						if(res.data.success){
+							resolve(res)
+						}else{
+							reject(res);
+						}
+					},
+					err=>{
+						reject({data:{success: false, msg: '提现出错:('}});
+					}
+				)
+			})
 		}
 	}
 })

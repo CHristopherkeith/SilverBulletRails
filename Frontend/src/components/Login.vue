@@ -27,13 +27,20 @@ export default {
   },
   methods: {
   	loginOrRegister(){
+      this.$store.commit('CHANGE_LOADING_MASK', {
+        loadingMaskShow: true
+      })
   		if(this.login){
+        
   			this.$store.dispatch('LOGIN',{
   				username: this.username,
   				password: this.password
   			})
   			.then(
   				res=>{
+            this.$store.commit('CHANGE_LOADING_MASK', {
+              loadingMaskShow: false
+            })
   					if(res.data.success){
   						this.$store.commit('SET_USERNAME', {userName: res.data.data.username})
   						this.$router.push({path: '/'});
@@ -42,11 +49,14 @@ export default {
   					}
   				},
   				err=>{
+            this.$store.commit('CHANGE_LOADING_MASK', {
+              loadingMaskShow: false
+            })
   					if(err.data&&err.data.msg){
-		              alert('出现错误：' + err.data.msg);
-		            }else{
-		              alert('出现错误！')
-		            }
+              alert('出现错误：' + err.data.msg);
+            }else{
+              alert('出现错误！')
+            }
   				}
   			)
   		}else{
@@ -57,6 +67,9 @@ export default {
   			})
   			.then(
   				res=>{
+            this.$store.commit('CHANGE_LOADING_MASK', {
+              loadingMaskShow: false
+            })
   					if(res.data.success){
   						alert('注册成功，请登录');
   						this.$router.push({path: 'login'});
@@ -65,11 +78,14 @@ export default {
   					}
   				},
   				err=>{
+            this.$store.commit('CHANGE_LOADING_MASK', {
+              loadingMaskShow: false
+            })
   					if(err.data&&err.data.msg){
-		              alert('出现错误：' + err.data.msg);
-		            }else{
-		              alert('出现错误！')
-		            }
+              alert('出现错误：' + err.data.msg);
+            }else{
+              alert('出现错误！')
+            }
   				}
   			)
   		}

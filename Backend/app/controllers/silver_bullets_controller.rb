@@ -75,6 +75,17 @@ class SilverBulletsController < ApplicationController
 		render json:rs
 	end
 
+	# 提现
+	def withdraw
+		rs = {success: true, data: nil, msg: ''}
+		begin
+
+		rescue Exception => e
+			rs = {success: false, data: nil, msg: e.message}
+		end
+		render json:rs
+	end
+
 	private
 
 	# 初始化游戏

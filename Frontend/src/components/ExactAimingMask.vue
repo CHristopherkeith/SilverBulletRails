@@ -55,9 +55,11 @@ export default {
   },
   methods: {
     triggerStart(e){
+      this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: true})
       this.axios.get('/silver_bullets/game_initialize', {params: {cnt: this.durationValue}})
       .then(
         res=>{
+          this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
           if(res.data.success){
             this.$emit('update:maskShow', false);
             this.$emit('trigger:exactAimingStart', res.data.data.initial_position);
@@ -66,17 +68,20 @@ export default {
           }
         },
         err=>{
+          this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
           alert('初始化游戏出现错误:(');
         }
       )
     },
     confirmRecord(confirmFlag){
       if(confirmFlag){
+        this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: true})
         this.$store.dispatch('VERIFY_SCORE', {})
         .then(
           res => {
             if(res.data.success){
               if(!this.hasWalletExt){
+                this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
                 alert('Please Install WebExtensionWallet First');
                 return;
               }
@@ -109,6 +114,7 @@ export default {
                 }
               )
             }else{
+              this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
               if(res.data.redirect){
                 this.$router.push({path: res.data.redirect})
               }else{
@@ -117,6 +123,7 @@ export default {
             }
           },
           err => {
+            this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
             if(err.data&&err.data.msg){
               alert('出现错误：' + err.data.msg);
             }else{

@@ -1,5 +1,6 @@
 <template>
   <div id="myApp">
+    <LoadingMask></LoadingMask>
     <UserNav :parentMenu="parentMenu" :childMenu="childMenu" :navMethod="navMethods"></UserNav>
     <!-- <UserNav :parentMenu="parentMenu" :childMenu="childMenu"></UserNav> -->
     <router-view/>
@@ -9,12 +10,12 @@
 <script>
 import { mapState } from 'vuex'
 import UserNav from './components/UserNav'
+import LoadingMask from './components/LoadingMask'
 export default {
   name: 'App',
-  components: {UserNav},
+  components: {UserNav, LoadingMask},
   data(){
     return {}
-    
   },
   computed:{
     ...mapState([
@@ -84,9 +85,15 @@ export default {
   },
   methods:{
     logout(){
+        this.$store.commit('CHANGE_LOADING_MASK', {
+          loadingMaskShow: true
+        })
         this.$store.dispatch('LOGOUT')
         .then(
           res=>{
+            this.$store.commit('CHANGE_LOADING_MASK', {
+              loadingMaskShow: false
+            })
             if(res.data.success){
               this.$store.commit('SET_USERNAME', {userName: null})
             }else{
@@ -94,6 +101,9 @@ export default {
             }
           },
           err=>{
+            this.$store.commit('CHANGE_LOADING_MASK', {
+              loadingMaskShow: false
+            })
             if(err.data&&err.data.msg){
               alert('出现错误：' + err.data.msg);
             }else{
@@ -104,6 +114,20 @@ export default {
     },
     withdraw(){
       console.log('【withdraw】')
+      this.$store.dispatch('WITHDRAW')
+      .then(
+        res=>{
+          if(res.data.success){
+            console.log('【提现成功】')
+            alert('此功能正在开发，敬请期待:)')
+          }else{
+            alert('出现错误：'+res.data.msg)
+          }
+        },
+        err=>{
+          alert('出现错误：'+err.data.msg)
+        }
+      )
     },
     onChain(){
       console.log('【onChain】')
