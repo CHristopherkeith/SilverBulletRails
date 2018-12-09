@@ -80,6 +80,7 @@ export default {
         .then(
           res => {
             if(res.data.success){
+              this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
               if(!this.hasWalletExt){
                 this.$store.commit('CHANGE_LOADING_MASK', {loadingMaskShow: false})
                 alert('Please Install WebExtensionWallet First');

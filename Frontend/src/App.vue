@@ -113,7 +113,6 @@ export default {
         )
     },
     withdraw(){
-      console.log('【withdraw】')
       this.$store.dispatch('WITHDRAW')
       .then(
         res=>{
@@ -130,7 +129,6 @@ export default {
       )
     },
     onChain(){
-      console.log('【onChain】')
       this.$store.dispatch('SAVE_STORE', {
         type: 'exact',
         scoreData: {

@@ -3,25 +3,6 @@ class SilverBulletsController < ApplicationController
 	def index
 		# headers['Access-Control-Allow-Origin'] = "*"
 	end
-	# def foo
-	# 	p params
-	# 	p 'ffffffffffff'
-	# 	p params[:a]
-	# 	session
-	# 	rs = {success: false, data: nil, msg: nil, redirect: "login"}
-	# 	session[:current_user_id] = 1
-	# 	render json: rs
-	# end
-	# def redirect
-	# 	p '1111111111111111111111'
-	# 	# puts params
-	# 	puts request.url
-	# 	puts request.protocol
-	# 	puts request.host_with_port
-	# 	p '222222222222222'
-	# 	rs = {a:'a'}
-	# 	redirect_to "#{request.protocol}#{request.host_with_port}/silver_bullets/#/login"
-	# end
 
 	# 验证分数
 	def verify_score
@@ -90,8 +71,8 @@ class SilverBulletsController < ApplicationController
 
 	# 初始化游戏
 	def get_initial_position(cnt=10)
-		# initial_position = Array.new(cnt){[Random.rand, Random.rand]}
-		initial_position = Array.new(cnt){[0, 0]}
+		initial_position = Array.new(cnt){[Random.rand.round(2), Random.rand.round(2)]}
+		# initial_position = Array.new(cnt){[0.round(2), 0.round(2)]}
 		# initial_position = [[0,0],[0.1,0.1],[0.2,0.2]];
 		# initial_position = [[0,0]];
 		return initial_position

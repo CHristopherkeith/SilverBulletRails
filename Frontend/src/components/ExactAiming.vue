@@ -109,7 +109,7 @@ export default {
             this.maskShowValue = true;
             this.maskTextValue = 'PLAY AGAIN?CLICK!';
             this.time = 0;
-            console.log(this.$store.state.processRecord, '【processRecord】')
+            // console.log(this.$store.state.processRecord, '【processRecord】')
             if(this.now.score > this.best.exactScore){
               this.confirmStatusValue = true;
             }
