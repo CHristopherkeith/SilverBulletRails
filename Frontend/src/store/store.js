@@ -51,7 +51,7 @@ const store = new Vuex.Store({
 		// 用户信息
 		userId: null,
 		userName: null,
-		durationValue:60,
+		durationValue: 60,
 		// login: true,
 		// 记录游戏过程的点击行为，分数验证所需参数
 		// [{time:20, x:100, y:130},......,]

@@ -4,9 +4,11 @@ class Score < ApplicationRecord
 	def self.create_or_update_score(current_user, score, current_user_id)
 		current_score = current_user.score
 		if current_score
-			current_score.update!({
-				score: score
-			})
+			if score.to_i>current_score.score.to_i
+				current_score.update!({
+					score: score
+				})
+			end
 		else
 			current_user.create_score!({
 				user_id: current_user_id,
