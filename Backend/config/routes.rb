@@ -13,4 +13,5 @@ Rails.application.routes.draw do
 	post 'users/login', to: 'users#login'
 	post 'users/logout', to: 'users#logout'
 	get 'users/get_current_user', to: 'users#get_current_user'
+	# root to: 'silver_bullets#index'
 end

@@ -56,6 +56,7 @@ class UsersController < ApplicationController
 
 	# 现在登录的用户
 	def get_current_user
+		# headers['Access-Control-Allow-Origin'] = "*"
 		begin
 			current_user()
 			if @_current_user

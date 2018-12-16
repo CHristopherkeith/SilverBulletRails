@@ -346,6 +346,7 @@ const store = new Vuex.Store({
 		},
 		[types.LOGOUT]({commit, state}, payload){
 			return new Promise((resolve, reject)=>{
+				// axios.post('/api/users/logout') //设置了nginx跨域代理的接口
 				axios.post('/users/logout')
 				.then(
 					res=>{
@@ -368,6 +369,7 @@ const store = new Vuex.Store({
 		[types.GET_CURRENT_USER]({commit, state}, payload){
 			return new Promise((resolve, reject)=>{
 				axios.get('/users/get_current_user')
+				// axios.get('/api/users/get_current_user') //设置了nginx跨域代理的接口
 				.then(
 					res=>{
 						if(res.data.success){
