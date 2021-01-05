@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "nebpay.js": "^0.2.1",
     "nebulas": "^0.5.5",
     "vue": "^2.5.2",
